@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const Login: React.FC = () => {
     const [formData, setFormData] = useState({
@@ -30,7 +31,7 @@ const Login: React.FC = () => {
 
     return (
         <div>
-            <h1>Register</h1>
+            <h1>Login</h1>
             {error && <p style={{ color: 'red' }}>{error}</p>}
             <form onSubmit={handleSubmit}>
                 <div>
@@ -53,7 +54,9 @@ const Login: React.FC = () => {
                         required
                     />
                 </div>
-                <button type="submit">Login</button>
+                <Link to="/chat" className="btn">
+                    Login
+                </Link>
             </form>
         </div>
     );

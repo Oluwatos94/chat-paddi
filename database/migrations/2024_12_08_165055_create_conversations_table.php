@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('conversations', function (Blueprint $table) {
             $table->id();
+            $table->string('name')->nullable(); // For group chats
+            $table->enum('type', ['private', 'group']); // Chat type
             $table->timestamps();
         });
     }
