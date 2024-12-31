@@ -1,19 +1,24 @@
 import './bootstrap';
+import '../css/app.css';
+import '../css/custom-chat.css';
 
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import LandingPage from './pages/Chat-room/LandingPage';
 import RegistrationForm from './pages/Auth/RegistrationForm';
-import Login from './pages/Auth/login';
+import ChatPage from './pages/Chat-room/ChatPage';
+import Login from './pages/Auth/Login';
 
 // App Component
 const App: React.FC = () => {
     return (
         <Router>
             <Routes>
+                <Route path="/" element={<LandingPage />} />
                 <Route path="/register" element={<RegistrationForm />} />
                 <Route path="/login" element={<Login />} />
-                {/* Add other routes here */}
+                <Route path="/chat" element={<ChatPage />} />
             </Routes>
         </Router>
     );
