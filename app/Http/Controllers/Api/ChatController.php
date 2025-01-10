@@ -45,28 +45,13 @@ class ChatController extends Controller
         ], 201);
     }
 
-    // public function getMessages(Conversation $conversation)
-    // {
-    //     $messages = $conversation->messages()->with('user')->get();
-    //     return response()->json([
-    //         'messages' => $messages,
-    //     ], 200);
-    // }
-
     public function getMessages(Conversation $conversation)
     {
-        Log::info('Fetching messages for conversation', ['conversation_id' => $conversation->id]);
-
         $messages = $conversation->messages()->with('user')->get();
-
-        Log::info('Messages fetched', ['messages' => $messages->toArray()]);
-
         return response()->json([
             'messages' => $messages,
         ], 200);
     }
-
-
 
     public function sendMessage(Request $request, Conversation $conversation)
     {

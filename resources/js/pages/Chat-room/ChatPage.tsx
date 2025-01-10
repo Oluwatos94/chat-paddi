@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import axios from '../../components/axiosConfig';
+import axios from 'axios';
+import baseUrl from '../../components/axiosConfig';
 import MessageBubble from './MessageBubble';
 
 
@@ -23,28 +24,30 @@ interface User {
 const ChatPage: React.FC = () => {
     const [conversations, setConversations] = useState<Conversation[]>([]);
     const [messages, setMessages] = useState<Message[]>([]);
-    const [currentConversation, setCurrentConversation] = useState<number | null>(null);
+    const [conversation, setCurrentConversation] = useState<number | null>(null);
     const [newMessage, setNewMessage] = useState<string>('');
     const currentUserId = 1;
     const userAvatar = '/path/to/user/avatar.jpg'; // Replace with the actual avatar path
     const otherAvatar = '/path/to/other/avatar.jpg'; // Replace with the actual avatar path
 
     useEffect(() => {
-        axios.get('/sanctum/csrf-cookie').then(() => {
-            axios.get('/conversations')
+        baseUrl.get(`/sanctum/csrf-cookie`).then(() => {
+            baseUrl.get('/conversations')
             .then((response) => setConversations(response.data))
         });
     }, []);
 
     const loadMessages = (conversationId: number) => {
         setCurrentConversation(conversationId);
-        axios.get(`/conversations/${conversationId}/messages`).then((response) => setMessages(response.data));
+        baseUrl.get(`/conversations/${conversationId}/messages`)
+            .then((response) => setMessages(response.data))
+            .catch((error) => console.error('Error loading messages:', error));
     };
+
 
     const sendMessage = () => {
         if (!newMessage) return;
-        axios
-            .post(`/api/conversations/${currentConversation}/messages`, { content: newMessage })
+        baseUrl.post(`/conversations/${conversation}/messages`, { content: newMessage })
             .then((response) => {
                 setMessages([...messages, response.data]);
                 setNewMessage('');
@@ -54,11 +57,15 @@ const ChatPage: React.FC = () => {
     return (
         <div className="chat-page">
             <aside className="conversations">
-                {conversations.map((conv: any) => (
+                {Array.isArray(conversations) ? (
+                conversations.map((conv: Conversation) => (
                     <div key={conv.id} onClick={() => loadMessages(conv.id)}>
                         {conv.name || `Conversation ${conv.id}`}
                     </div>
-                ))}
+                ))
+                ) : (
+                    <p></p>
+                )}
             </aside>
             <main className="messages">
                 <div className="message-list">
