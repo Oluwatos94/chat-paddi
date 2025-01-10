@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property string|null $name
@@ -27,8 +27,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|conversation whereUpdatedAt($value)
  * @mixin \Eloquent
  */
-class conversation extends Model
+class Conversation extends Model
 {
+    protected $fillable = [
+        'name',
+        'type'
+    ];
+
     public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'conversation_user', 'conversation_id', 'user_id')
@@ -37,6 +42,6 @@ class conversation extends Model
 
     public function messages()
     {
-        return $this->hasMany(Message::class);
+        return $this->hasMany(Message::class)->orderBy('created_at', 'desc');
     }
 }
