@@ -21,6 +21,8 @@
         "@types/node": "^22.10.1",
         "@types/react": "^19.0.1",
         "@types/react-dom": "^19.0.1",
+        "laravel-echo": "^1.18.0",
+        "pusher-js": "^8.4.0-rc2",
         "react": "^19.0.0",
         "react-dom": "^19.0.0",
         "react-router-dom": "^7.0.2",
