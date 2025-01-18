@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Events\MessageSent;
 use App\Http\Controllers\Controller;
 use App\Models\Conversation;
 use App\Models\Message;
@@ -63,6 +64,8 @@ class ChatController extends Controller
             'content' => $request->content,
             'user_id' => Auth::id(),
         ]);
+
+        broadcast(new MessageSent($message))->toOthers();
 
         return response()->json([
             'message' => $message->load('user'),
